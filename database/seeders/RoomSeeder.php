@@ -2,35 +2,45 @@
 
 namespace Database\Seeders;
 
-use App\Models\Room;
 use Illuminate\Database\Seeder;
+use App\Models\Room;
 
 class RoomSeeder extends Seeder
 {
     public function run(): void
     {
-        Room::create([
-            'name' => 'Standard Room',
-            'description' => 'Fasilitas kandang nyaman, makan 2x sehari, area bermain reguler, dan ruangan ber-AC.',
-            'price_per_night' => 50000,
-            'capacity' => 1,
-            'status' => 'available',
-        ]);
+        $rooms = [
+            [
+                'name' => 'Standard Cozy Room',
+                'category' => 'Standard',
+                'price_per_night' => 85000,
+                'capacity' => 1,
+                'description' => 'Kamar nyaman ber-AC dengan mainan dasar, tempat tidur empuk, dan pembersihan rutin 2x sehari.',
+                'image' => 'public/kandang 1.png',
+                'status' => 'available',
+            ],
+            [
+                'name' => 'Deluxe Playful Suite',
+                'category' => 'Deluxe',
+                'price_per_night' => 150000,
+                'capacity' => 2,
+                'description' => 'Kamar luas dengan cat tower, scratching post, kamera CCTV online 24 jam, dan makanan premium.',
+                'image' => 'public/kandang 2.png',
+                'status' => 'available',
+            ],
+            [
+                'name' => 'VIP Presidential Suite',
+                'category' => 'VIP',
+                'price_per_night' => 250000,
+                'capacity' => 4,
+                'description' => 'Ruangan mewah paling luas, balkon kaca khusus, fasilitas spa & grooming gratis, serta akses CCTV privat untuk pemilik.',
+                'image' => 'public/kandang 3.png',
+                'status' => 'available',
+            ],
+        ];
 
-        Room::create([
-            'name' => 'Deluxe Room',
-            'description' => 'Ruangan lebih luas, makan 3x sehari + snack, akses CCTV 24/7, dan perawatan sisir bulu harian.',
-            'price_per_night' => 85000,
-            'capacity' => 2,
-            'status' => 'available',
-        ]);
-
-        Room::create([
-            'name' => 'VIP Suite',
-            'description' => 'Kamar privat ekstra luas, makanan premium (free request), grooming gratis, arena main privat, & laporan video harian.',
-            'price_per_night' => 150000,
-            'capacity' => 3,
-            'status' => 'available',
-        ]);
+        foreach ($rooms as $room) {
+            Room::create($room);
+        }
     }
 }

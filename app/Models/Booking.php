@@ -11,26 +11,27 @@ class Booking extends Model
 
     protected $fillable = [
         'booking_code',
+        'user_id',
         'room_id',
-        'customer_name',
-        'customer_phone',
         'cat_name',
         'cat_breed',
+        'special_notes',
         'check_in',
         'check_out',
         'total_nights',
         'total_price',
-        'dp_amount',
         'status',
-        'notes',
+        'payment_status',
+        'snap_token',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function room()
     {
         return $this->belongsTo(Room::class);
-    }
-
-    public function payment()
-    {
-        return $this->hasOne(Payment::class);
     }
 }

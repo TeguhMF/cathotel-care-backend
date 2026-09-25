@@ -10,6 +10,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // 1. Seed Account Admin
         User::updateOrCreate(
             ['username' => 'admin010'],
             [
@@ -20,5 +21,10 @@ class DatabaseSeeder extends Seeder
                 'role' => 'admin',
             ]
         );
+
+        // 2. Seed Data Kamar
+        $this->call([
+            RoomSeeder::class,
+        ]);
     }
 }

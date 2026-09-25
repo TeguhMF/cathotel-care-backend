@@ -6,25 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-    Schema::create('rooms', function (Blueprint $table) {
-        $table->id();
-        $table->string('name'); // Standar, Deluxe, VIP
-        $table->text('description')->nullable();
-        $table->decimal('price_per_night', 12, 2);
-        $table->integer('capacity');
-        $table->enum('status', ['available', 'maintenance'])->default('available');
-        $table->timestamps();
-    });
-}
+        Schema::create('rooms', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');             // Contoh: Deluxe Cat Suite
+            $table->string('category');         // Contoh: Standard, Deluxe, VIP
+            $table->integer('price_per_night'); // Contoh: 150000
+            $table->integer('capacity');        // Kapasitas max kucing, contoh: 2
+            $table->text('description')->nullable();
+            $table->string('image')->nullable();
+            $table->enum('status', ['available', 'occupied', 'maintenance'])->default('available');
+            $table->timestamps();
+        });
+    }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('rooms');
