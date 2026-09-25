@@ -16,13 +16,14 @@ class BookingController extends Controller
 {
     public function __construct()
     {
-        // Set konfigurasi Midtrans
+        // Pastikan file .env kamu sudah BENAR (Tanpa SB-)
         Config::$serverKey = config('services.midtrans.server_key');
         Config::$isProduction = config('services.midtrans.is_production');
         Config::$isSanitized = config('services.midtrans.is_sanitized');
         Config::$is3ds = config('services.midtrans.is_3ds');
     }
 
+    // Fungsi ini dipanggil dari Frontend React (Tombol Bayar)
     public function store(Request $request)
     {
         $request->validate([
@@ -43,7 +44,7 @@ class BookingController extends Controller
         if ($totalNights < 1) $totalNights = 1;
 
         $totalPrice = $totalNights * $room->price_per_night;
-        $dpAmount = (int) round($totalPrice * 0.3); // Nominal DP 30%
+        $dpAmount = (int) round($totalPrice * 0.3);
 
         $bookingCode = 'CHC-' . date('Ymd') . '-' . strtoupper(Str::random(4));
 
@@ -64,7 +65,6 @@ class BookingController extends Controller
 
         $booking->load(['user', 'room']);
 
-        // Parameter Transaksi Midtrans (Hanya tagih nominal DP 30%)
         $params = [
             'transaction_details' => [
                 'order_id' => $booking->booking_code,
@@ -89,20 +89,19 @@ class BookingController extends Controller
             $snapToken = Snap::getSnapToken($params);
             $booking->snap_token = $snapToken;
             $booking->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Pemesanan kamar berhasil dibuat',
+                'data' => $booking
+            ], 201);
         } catch (\Exception $e) {
-            // Fallback jika Midtrans belum di-configure dengan key asli
-            $booking->snap_token = 'DEV-MOCK-' . Str::random(10);
-            $booking->save();
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mendapatkan token Midtrans: ' . $e->getMessage()
+            ], 500);
         }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Pemesanan kamar berhasil dibuat',
-            'data' => $booking
-        ], 201);
     }
-
-    // Webhook Notification dari Midtrans
     public function notificationHandler(Request $request)
     {
         try {
