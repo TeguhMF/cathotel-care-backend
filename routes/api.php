@@ -18,3 +18,5 @@ Route::post('/midtrans/callback', [BookingController::class, 'notificationHandle
 // Autentikasi
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/bookings/user/{id}', [BookingController::class, 'getUserBookings']);

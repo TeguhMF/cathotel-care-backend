@@ -138,9 +138,21 @@ class BookingController extends Controller
 
             $booking->save();
             return response()->json(['success' => true]);
-
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
+    }
+
+    public function getUserBookings($userId)
+    {
+        $bookings = Booking::with('room')
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $bookings
+        ], 200);
     }
 }
