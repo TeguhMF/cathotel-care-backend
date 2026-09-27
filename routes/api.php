@@ -19,4 +19,8 @@ Route::post('/midtrans/callback', [BookingController::class, 'notificationHandle
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+// Admin Routes
+Route::get('/admin/bookings', [BookingController::class, 'index']);
+Route::patch('/admin/bookings/{id}/status', [BookingController::class, 'updateStatus']);
+
 Route::get('/bookings/user/{id}', [BookingController::class, 'getUserBookings']);

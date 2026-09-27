@@ -23,7 +23,7 @@ class BookingController extends Controller
         Config::$is3ds = config('services.midtrans.is_3ds');
     }
 
-    // Fungsi ini dipanggil dari Frontend React (Tombol Bayar)
+    // 1. Fungsi ini dipanggil dari Frontend React (Tombol Bayar)
     public function store(Request $request)
     {
         $request->validate([
@@ -102,6 +102,8 @@ class BookingController extends Controller
             ], 500);
         }
     }
+
+    // 2. Webhook / Notification Handler dari Midtrans
     public function notificationHandler(Request $request)
     {
         try {
@@ -143,6 +145,7 @@ class BookingController extends Controller
         }
     }
 
+    // 3. Mengambil riwayat booking spesifik berdasarkan user_id (Halaman Profil Customer)
     public function getUserBookings($userId)
     {
         $bookings = Booking::with('room')
@@ -153,6 +156,37 @@ class BookingController extends Controller
         return response()->json([
             'success' => true,
             'data' => $bookings
+        ], 200);
+    }
+
+    // 4. [ADMIN] Menampilkan SEMUA data booking dari seluruh customer
+    public function index()
+    {
+        $bookings = Booking::with(['user', 'room'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $bookings
+        ], 200);
+    }
+
+    // 5. [ADMIN] Mengubah status reservasi (pending, confirmed, checked_in, checked_out, cancelled)
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,confirmed,checked_in,checked_out,cancelled'
+        ]);
+
+        $booking = Booking::findOrFail($id);
+        $booking->status = $request->status;
+        $booking->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Status booking berhasil diperbarui',
+            'data' => $booking
         ], 200);
     }
 }
