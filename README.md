@@ -1,4 +1,4 @@
-# CatHotel Care - Backend API
+# CatHotel Care - Dokumentasi Backend API
 
 Repositori ini berisi layanan RESTful API untuk aplikasi web CatHotel Care yang dibangun menggunakan Laravel dan database MySQL. Layanan ini menangani manajemen data kamar, transaksi pemesanan (booking), profil pengguna, pembaruan status reservasi, serta integrasi webhook pembayaran.
 
@@ -57,19 +57,20 @@ MIDTRANS_SERVER_KEY=KUNCI_SERVER_MIDTRANS_ANDA
 MIDTRANS_IS_PRODUCTION=false
 MIDTRANS_IS_SANITIZED=true
 MIDTRANS_IS_3DS=true
-
 ```
-
-### Kloning repositori:
-
--git clone [https://github.com/username-anda/cathotel-care-backend.git](https://github.com/TeguhMF/cathotel-care-backend.git)
+```bash
+# 1. Kloning repositori
+git clone [https://github.com/username-anda/cathotel-care-backend.git](https://github.com/username-anda/cathotel-care-backend.git)
 cd cathotel-care-backend
 
--composer install
+# 2. Install dependensi PHP
+composer install
 
--php artisan key:generate
+# 3. Generasi Application Key
+php artisan key:generate
 
--php artisan migrate --seed
+# 4. Jalankan Migration dan Seeder Database
+php artisan migrate --seed
 
--php artisan serve
-
+# 5. Jalankan Server Lokal (berjalan pada [http://127.0.0.1:8000](http://127.0.0.1:8000))
+php artisan serve
