@@ -62,7 +62,7 @@ MIDTRANS_IS_3DS=true
 
 ### Kloning repositori:
 
--git clone [https://github.com/username-anda/cathotel-care-backend.git](https://github.com/username-anda/cathotel-care-backend.git)
+-git clone [https://github.com/username-anda/cathotel-care-backend.git](https://github.com/TeguhMF/cathotel-care-backend.git)
 cd cathotel-care-backend
 
 -composer install
