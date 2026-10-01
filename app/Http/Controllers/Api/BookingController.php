@@ -172,21 +172,21 @@ class BookingController extends Controller
         ], 200);
     }
 
-    // 5. [ADMIN] Mengubah status reservasi (pending, confirmed, checked_in, checked_out, cancelled)
-    public function updateStatus(Request $request, $id)
-    {
-        $request->validate([
-            'status' => 'required|in:pending,confirmed,checked_in,checked_out,cancelled'
-        ]);
+    // 5. [ADMIN] Mengubah status reservasi
+        public function updateStatus(Request $request, $id)
+        {
+            $request->validate([
+                'status' => 'required|in:pending,confirmed,checked_in,checked_out,cancelled'
+            ]);
 
-        $booking = Booking::findOrFail($id);
-        $booking->status = $request->status;
-        $booking->save();
+            $booking = Booking::findOrFail($id);
+            $booking->status = $request->status;
+            $booking->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Status booking berhasil diperbarui',
-            'data' => $booking
-        ], 200);
-    }
+            return response()->json([
+                'success' => true,
+                'message' => 'Status booking berhasil diperbarui',
+                'data' => $booking
+            ], 200);
+        }
 }

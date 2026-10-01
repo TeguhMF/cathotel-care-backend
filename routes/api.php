@@ -21,6 +21,6 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // Admin Routes
 Route::get('/admin/bookings', [BookingController::class, 'index']);
-Route::patch('/admin/bookings/{id}/status', [BookingController::class, 'updateStatus']);
+Route::match(['put', 'patch'], '/admin/bookings/{id}/status', [BookingController::class, 'updateStatus']);
 
 Route::get('/bookings/user/{id}', [BookingController::class, 'getUserBookings']);
